@@ -1,0 +1,24 @@
+extends layout
+block content
+    script(src='/controllers/TestController.js')
+    script(src='/services/ConnectService.js')
+    div(ng-app='app', ng-controller='testCtrl')
+        h2(ng-bind='test.title.model')
+        label url :
+        input(type='text', ng-model='test.url.model')
+        br
+        label method :
+        input(type='text', ng-model='test.method.model')
+        br
+        label data :
+        br
+        textarea(type='text', ng-model='test.data.model', ng-style='test.data.style')
+        br
+        label 网络接口 :
+        select(ng-model="test.selected.model" ng-options="v.name for v in test.selected.data"
+        ng-change='test.selected.onChange()')
+            option(value="") -- 请选择 --
+        br
+        button(ng-style='test.submit.style', ng-model="test.submit.model", ng-click='test.submit.onClick()') 提交
+        p
+        p(style='color:{{test.info.color}}' ng-bind='test.info.model | json')

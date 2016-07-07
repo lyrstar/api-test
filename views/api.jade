@@ -1,0 +1,54 @@
+extends layout
+block content
+   link(rel='stylesheet', href='/css/api.css')
+   script(src='/controllers/ApiController.js')
+   script(src='/services/ConnectService.js')
+   div(ng-app='app', ng-controller='apiCtrl', ng-style='api.style')
+      h2#top api文档
+      br
+      h3 目录:
+      .m-apiy-li-a-start.my-api-li-a-end.my-api-font-size-20#list(ng-model='api.list.model', ng-repeat='item in api.datas')
+         label(ng-bind='$index + 1 + "."')
+         label &nbsp
+         a(href="{{'#' + item.name}}" ng-bind='item.name')
+         p
+
+      br
+      h3 详细:
+      .my-api-li-a-start.my-api-li-a-end(ng-model='api.list.model', ng-repeat='item in api.datas')
+         div(id='{{item.name}}')
+            h4(ng-bind='$index + 1 +  ". " + item.name')
+            label 请求数据:
+            fieldset.my-api-margin-left-4.my-api-color-info
+               table.table
+                  tr
+                  tr
+                     td
+                        label(style='color:black') 请求路径 :
+                     td
+                        label(ng-bind='item.url')
+                  tr
+                  tr
+                     td
+                        label(style='color:black') 请求方式 :
+                     td
+                        label(ng-bind='item.method')
+                  tr
+                  tr
+                     td(valign='top')
+                        label(style='color:black') 上送参数 :
+                     td
+                        label(ng-bind='item.data | json')
+
+            label 响应成功:
+            fieldset.my-api-margin-left-4.my-api-color-success
+               p(ng-bind='item.success | json')
+            label 响应失败:
+            fieldset.my-api-margin-left-4.my-api-color-error
+               p(ng-repeat='i in item.error' ng-bind='i | json')
+            br
+            hr
+            br
+      p(ng-style='api.info.style' ng-bind='api.info.model')
+      .api-go-top
+         a(href='#top') 返回顶部

@@ -1,0 +1,48 @@
+.my-api-li-a-start a:link, a:visited {
+    text-decoration:none;
+    color : #423aff;
+    background-color : #d4dce2;
+}
+.my-api-li-a-end a:hover, a:active {
+    text-decoration:none;
+    color : #ffffff;
+    background-color : #233333;
+}
+
+.my-api-font-size-20 {
+    font-size:18px;
+}
+
+.my-api-padding-left-4 {
+    padding-left: 4em;
+}
+
+.my-api-margin-left-4 {
+    margin-left: 4em;
+}
+
+.my-api-color-success {
+    color: #449d44;
+}
+.my-api-color-warning {
+    color: #f0ad4e;
+}
+.my-api-color-info {
+    color: #5bc0de;
+}
+.my-api-color-error {
+    color: #d9534f;
+}
+
+.hover {
+    font-size:28px;
+}
+
+.api-go-top {
+    text-decoration:none;
+    position:fixed;
+    right:10%;
+    top:70%;
+    font-size:18px;
+
+}
