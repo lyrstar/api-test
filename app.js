@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-var filter = require('./filter/filter.js');
 
 var app = express();
 var routes = require('./routes/index');
@@ -20,7 +19,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views')));
-app.use(filter.request);
 
 app.use('/', routes);
 

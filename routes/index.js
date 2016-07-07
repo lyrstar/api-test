@@ -2,6 +2,7 @@
 
 var express = require('express');
 var router = express.Router();
+let agent = require('../agent.js');
 let api = require('../config/api.js');
 
 router
@@ -14,8 +15,7 @@ router
     .get('/api-test/getApi', function (req, res) {
         res.send({api : api})
     })
-    .get('/*', function (req, res, next) {
-        res.send('start success ! ');
-    })
+    .get('/*', agent.send)
+    .post('/*', agent.send)
 
 module.exports = router;
