@@ -19,9 +19,7 @@ app.controller('apiCtrl', function($scope, connectService){
     connectService.sendRequest('/api-test/getApi', 'GET')
         .then(
             function (data) {
-                $scope.api.datas = data.api.data;
-                $scope.api.host = data.api.host;
-                $scope.api.port = data.api.port;
+                $scope.api.datas = data.api;
                 console.log(data)
             },
             function (error) {

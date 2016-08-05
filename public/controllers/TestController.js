@@ -58,7 +58,7 @@ app.controller('testCtrl', function($scope, connectService){
 
     connectService.sendRequest('/api-test/getApi', 'GET').then(
         function(d) {
-            $scope.test.selected.data = d.api.data;
+            $scope.test.selected.data = d.api;
             $scope.test.info.color = 'green';
         },
         function(e) {

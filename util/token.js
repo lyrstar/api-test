@@ -2,8 +2,8 @@
 /**
  * Created by sunpengfei on 16/6/2.
  */
-let crypto = require('crypto');
-const DESTYPE = ['des-ecb', 'des-cbc', 'des-ede3', 'des-ede3-cbc'];
+const crypto = require('crypto');
+const os = require('os');
 
 function getKey(key){
     key = key.replace(/-/g,'').slice(0,32);
@@ -50,19 +50,44 @@ module.exports.aes = {
     }
 };
 
-module.exports.guid = function() {
-    let date = ((Date.now()/1000).toFixed()*1).toString(36);
-    let s1 = (((1 + Math.random()) * 0x1000000) | 0).toString(36).substring(0);
-    let s2 = (((1 + Math.random()) * 0x1000000) | 0).toString(36).substring(0);
-    return date + '-' + s1 + '-' + s2;
+var guid = module.exports.guid = function() {
+    let date = (Date.now().toFixed()*1).toString(36);
+    let t1 = date.substring(0, 4);
+    let t2 = date.substring(4);
+    let mac = parseInt(__getMac().replace(/:/g, ''), 16).toString(36);
+    let m1 = mac.substring(0, 5);
+    let m2 = mac.substring(5);
+    let s1 = (((1 + Math.random()) * 0x1000000) | 0).toString(36).substring(0, 5);
+    let s2 = (((1 + Math.random()) * 0x1000000) | 0).toString(36).substring(0, 5);
+    return `${s1}-${s2}-${m1}-${m2}-${t1}-${t2}`;
+};
+
+var token = module.exports.token = function() {
+    let date = (Date.now().toFixed()*1).toString(36);
+    let s1 = (((1 + Math.random()) * 0x1000000) | 0).toString(36).substring(0, 5);
+    let s2 = (((1 + Math.random()) * 0x1000000) | 0).toString(36).substring(0, 5);
+    return date + s1 + s2;
 };
 
 var des = module.exports.des = {
-    encrypt : function (string, key) {
+    /**
+     * 加密
+     * @param string
+     * @param key
+     * @param type ['des-ecb', 'des-cbc', 'des-ede3', 'des-ede3-cbc']
+     * @returns {*}
+     */
+    encrypt : function (string, key, type) {
+        if(!string || !key){
+            return '';
+        }
+        if(key.length > 8){
+            console.error('秘钥长度为:', key.length)
+        }
         key = new Buffer(key);
         //var iv = new Buffer(8);
         var iv = new Buffer([0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF])
-        var desType = DESTYPE[1];
+        var desType = type || 'des-cbc';
         try{
             var cipher = crypto.createCipheriv(desType, key, iv);
             var ciph = cipher.update(string, 'utf8', 'base64');
@@ -70,14 +95,26 @@ var des = module.exports.des = {
             return ciph;
         }catch(e){
             console.error('加密失败',e)
+            return '';
         }
     },
-    decrypt : function(string, key){
-        //console.log('=======:string', string);
-        //console.log('=======:key', key);
+    /**
+     * 解密
+     * @param string
+     * @param key
+     * @param type ['des-ecb', 'des-cbc', 'des-ede3', 'des-ede3-cbc']
+     * @returns {*}
+     */
+    decrypt : function(string, key, type){
+        if(!string || !key){
+            return '';
+        }
+        if(key.length > 8){
+            console.error('秘钥长度为:', key.length)
+        }
         key = new Buffer(key);
         var iv = new Buffer([0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF]);
-        var desType = DESTYPE[1];
+        var desType = type || 'des-cbc';
         try{
             var decipher = crypto.createDecipheriv(desType, key, iv);
             var txt = decipher.update(string, 'base64', 'utf8');
@@ -85,15 +122,20 @@ var des = module.exports.des = {
             return txt;
         }catch(e){
             console.error('解密失败', e)
+            return '';
         }
 
     }
 }
 
 
-//let a = des.encrypt('一二三fasd123', 'o-p@kdn=')
-//let b = des.decrypt('d4WJVtycGWsjZcBb3P64XaLYAOgJ75wM1wCxIzwRavuRG//ENFhPA8v76G7KVOk2', 'f59bd65f')
-//console.log('a', a);
-//let c = md5('123456');
-//console.log('b', b);
-//console.log('c', c);//202cb962ac59075b964b07152d234b70 202cb962ac59075b964b07152d234b70
+function __getMac(){
+    var networkInterfaces=os.networkInterfaces();
+    for(let attr in networkInterfaces){
+        for(let item of networkInterfaces[attr]){
+            if(item.family === 'IPv4' && item.mac !== '00:00:00:00:00:00'){
+                return item.mac;
+            }
+        }
+    }
+};

@@ -4,9 +4,12 @@
  */
 const http = require('http');
 const request = require('request');
+const config = require('./config/api.js');
+const host = config.host || '127.0.0.1';
+const port = config.port || 13000;
+
 const filter = require('./filter/filter.js');
-let hostname = '127.0.0.1';
-let port = 13000;
+
 
 function send(req, res, next){
     //console.log(req.originalUrl);
@@ -17,36 +20,36 @@ function send(req, res, next){
     console.log(req.method);
     console.log(req.body);
     console.log(req.query);
+    if(req.url === '/favicon.ico'){
+        res.send('');
+        return;
+    }
     method = method.toUpperCase();
     if(method === 'POST'){
         data = req.body;
     }
+    data = filter.request(req, data);
     _httpRequest(path, req.method, data)
         .then(d => {
-            console.log(d);
-            res.send({status : 200, msg : d})
+            console.log('agent : response :', d);
+            d = filter.response(req, d);
+            res.send(d)
         })
         .catch(e => {
-            console.error(e);
-            res.send({status : 500, msg : e})
+            console.error('agent : response :', e);
+            res.send(e)
         })
 
 }
-
-module.exports = {
-    send : send
-}
-
-
-
 
 
 function _httpRequest(path, method, msg){
-    let url = 'http://' + hostname + ':' + port + path;
+    let url = 'http://' + host + ':' + port + path;
     return new Promise((resolve, reject) => {
         if(method === 'GET'){
             request.get({url:url, qs:msg, json:true}, function(err, httpResponse, body) {
                 if (err) {
+                    console.error('_httpRequest')
                     return reject(err);
                 }
                 resolve(body);
@@ -64,3 +67,8 @@ function _httpRequest(path, method, msg){
 
     })
 }
+
+
+module.exports = {
+    send : send
+};

@@ -3,7 +3,7 @@
 var express = require('express');
 var router = express.Router();
 let agent = require('../agent.js');
-let api = require('../config/api.js');
+let api = require('../config/api.js').api;
 
 router
     .get('/api-test/test', function (req, res, next) {
