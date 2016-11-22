@@ -1,5 +1,7 @@
 .idea/
 .idea/*
+# api
+config/*_api.js
 
 # Logs
 logs
