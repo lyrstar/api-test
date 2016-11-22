@@ -24,8 +24,7 @@ app.use('/', routes);
 
 
 
-var server = app.listen(3300);
-
+app.listen(3300);
 module.exports = app;
 
 console.log('http://127.0.0.1:3300');

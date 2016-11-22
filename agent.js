@@ -4,11 +4,15 @@
  */
 const http = require('http');
 const request = require('request');
-const config = require('./config/api.js');
-const host = config.host || '127.0.0.1';
-const port = config.port || 13000;
 
-const filter = require('./filter/filter.js');
+let apiPath = './config/';
+let apiName = 'api';
+if(!! process.argv[2]) apiName = process.argv[2];
+let config = require(apiPath+apiName);
+
+const host = config.host || '127.0.0.1';
+const port = config.port || 80;
+const filter = config.filter;
 
 
 function send(req, res, next){
