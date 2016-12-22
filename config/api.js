@@ -13,8 +13,8 @@ const filter = {
 const data = [  //接口列表
     {
         name: '测试1',    //接口业务描述(名称)
-        host: '127.0.0.1',
-        port: '8080',
+        host: hostname,
+        port: port,
         url: '/test1',
         method: 'GET',  //请求方式
         data: {         //参数
@@ -28,8 +28,8 @@ const data = [  //接口列表
     },
     {
         name: '测试2',
-        host: '127.0.0.1',
-        port: '8080',
+        host: hostname,
+        port: port,
         url: '/test2',
         method: 'POST',
         data: {

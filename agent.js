@@ -30,11 +30,11 @@ function send(req, res, next){
     if(method === 'POST'){
         data = req.body;
     }
-    data = filter.request(req, data);
+    data = filter.request(data);
     _httpRequest(path, req.method, data)
         .then(d => {
             console.log('agent : response :', d);
-            d = filter.response(req, d);
+            d = filter.response(d);
             res.send(d)
         })
         .catch(e => {

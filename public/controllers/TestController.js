@@ -60,6 +60,8 @@ app.controller('testCtrl', function($scope, connectService){
         function(d) {
             $scope.test.selected.data = d.api;
             $scope.test.info.color = 'green';
+            $scope.test.selected.model = d.api[0];
+            $scope.test.selected.onChange()
         },
         function(e) {
             $scope.test.info.model = '数据请求失败';
