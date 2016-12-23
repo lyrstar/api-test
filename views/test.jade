@@ -1,7 +1,7 @@
 extends layout
 block content
-    script(src='/controllers/TestController.js')
-    script(src='/services/ConnectService.js')
+    script(src='/TestController.js')
+    script(src='/ConnectService.js')
     div(ng-app='app', ng-controller='testCtrl')
         h2(ng-bind='test.title.model')
         label url :

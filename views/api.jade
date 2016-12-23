@@ -1,8 +1,8 @@
 extends layout
 block content
-   link(rel='stylesheet', href='/css/api.css')
-   script(src='/controllers/ApiController.js')
-   script(src='/services/ConnectService.js')
+   link(rel='stylesheet', href='/api.css')
+   script(src='/ApiController.js')
+   script(src='/ConnectService.js')
    div(ng-app='app', ng-controller='apiCtrl', ng-style='api.style')
       h2#top api文档
       br

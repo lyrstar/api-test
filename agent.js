@@ -20,8 +20,8 @@ function send(req, res, next){
     let path = req.url;
     let method = req.method;
     let data = req.query;
-    console.log(req.method, req.url);
-    console.log(req.params, req.query, req.body);
+    // console.log(req.method, req.url);
+    // console.log(req.params, req.query, req.body);
     if(req.url === '/favicon.ico'){
         res.send('');
         return;
@@ -33,12 +33,12 @@ function send(req, res, next){
     data = filter.request(data);
     _httpRequest(path, req.method, data)
         .then(d => {
-            console.log('agent : response :', d);
+            // console.log('agent : response :', d);
             d = filter.response(d);
             res.send(d)
         })
         .catch(e => {
-            console.error('agent : response :', e);
+            // console.error('agent : response :', e);
             res.send(e)
         })
 
