@@ -4,6 +4,7 @@
  */
 const http = require('http');
 const request = require('request');
+const connect = require('./connect.js');
 
 let apiPath = './config/';
 let apiName = 'api';
@@ -20,8 +21,8 @@ function send(req, res, next){
     let path = req.url;
     let method = req.method;
     let data = req.query;
-    // console.log(req.method, req.url);
-    // console.log(req.params, req.query, req.body);
+    console.log(req.method, req.url);
+    console.log(req.params, req.query, req.body);
     if(req.url === '/favicon.ico'){
         res.send('');
         return;
@@ -33,18 +34,29 @@ function send(req, res, next){
     data = filter.request(data);
     _httpRequest(path, req.method, data)
         .then(d => {
-            // console.log('agent : response :', d);
+            console.log('agent : response :', d);
             d = filter.response(d);
             res.send(d)
         })
         .catch(e => {
-            // console.error('agent : response :', e);
+            console.error('agent : response :', e);
             res.send(e)
         })
 
 }
 
 
+function _httpRequest(path, method, msg){
+    console.log('data : msg :', msg);
+    return connect.request({
+        hostname: host,
+        port: port,
+        path: path,
+        method: method,
+        data: msg
+    })
+}
+/**
 function _httpRequest(path, method, msg){
     let url = 'http://' + host + ':' + port + path;
     return new Promise((resolve, reject) => {
@@ -58,6 +70,7 @@ function _httpRequest(path, method, msg){
             });
         }else if(method === 'POST'){
             request.post({url:url, form : msg}, function(err, httpResponse, body) {
+                console.log(msg)
                 if (err) {
                     return reject(err);
                 }
@@ -69,7 +82,7 @@ function _httpRequest(path, method, msg){
 
     })
 }
-
+ */
 
 module.exports = {
     send : send

@@ -3,6 +3,7 @@
  * Created by sunpengfei on 16/7/6.
  */
 var express = require('express');
+var child_process = require('child_process');
 var path = require('path');
 var bodyParser = require('body-parser');
 var agent = require('./agent.js');
@@ -45,7 +46,7 @@ module.exports = app;
 
 console.log('接口调用测试:', `http://${getIPAddress()}:3300/api-test/test`);
 console.log('查看API文档:', `http://${getIPAddress()}:3300/api-test/api`);
-
+// openWindow(`http://${getIPAddress()}:3300/api-test/test`);
 function getIPAddress() {
     let interfaces = require('os').networkInterfaces();
     for (var devName in interfaces) {
@@ -57,4 +58,14 @@ function getIPAddress() {
             }
         }
     }
+}
+
+
+function openWindow(url) {
+    var cmd;
+    if(process.platform == 'wind32') cmd  = 'start "%ProgramFiles%\Internet Explorer\iexplore.exe"';
+    else if(process.platform == 'linux') cmd  = 'xdg-open';
+    else if(process.platform == 'darwin') cmd  = 'open';
+
+    child_process.exec(cmd + ' "'+url + '"');
 }
