@@ -17,7 +17,8 @@ const filter = config.filter;
 
 
 function send(req, res, next){
-    //console.log(req.originalUrl);
+    console.log(req.originalUrl);
+
     let path = req.url;
     let method = req.method;
     let data = req.query;
@@ -28,7 +29,7 @@ function send(req, res, next){
         return;
     }
     method = method.toUpperCase();
-    if(method === 'POST'){
+    if(method === 'POST' || method === 'PUT'){
         data = req.body;
     }
     data = filter.request(data);

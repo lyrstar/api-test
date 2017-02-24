@@ -39,14 +39,16 @@ router
         res.send({api: api})
     })
     .get('/*', agent.send)
+    .put('/*', agent.send)
     .post('/*', agent.send)
+    .delete('/*', agent.send)
 
 app.listen(3300);
 module.exports = app;
 
 console.log('接口调用测试:', `http://${getIPAddress()}:3300/api-test/test`);
 console.log('查看API文档:', `http://${getIPAddress()}:3300/api-test/api`);
-// openWindow(`http://${getIPAddress()}:3300/api-test/test`);
+openWindow(`http://${getIPAddress()}:3300/api-test/test`);
 function getIPAddress() {
     let interfaces = require('os').networkInterfaces();
     for (var devName in interfaces) {

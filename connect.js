@@ -8,15 +8,15 @@ const querystring = require('querystring');
 function request(params) {
     return new Promise((resolve, reject) => {
         params.data = params.data || '';
-        params.data = querystring.stringify(params.data);
+        params.data = JSON.stringify(params.data);
         var options = {
             hostname: params.hostname,
             port: params.port,
             path: params.path,
             method: params.method,
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Content-Length': Buffer.byteLength(params.data)
+                'Content-Type': 'application/json',
+                'Content-Length': params.data.length
             }
         };
         var req = http.request(options, res => {

@@ -10,7 +10,7 @@
             "name": "启动程序",
             "program": "${workspaceRoot}/app.js",
             "args": [
-                "omescape_open_api.js"
+                "hero_api.js"
             ],
             "cwd": "${workspaceRoot}"
         }
